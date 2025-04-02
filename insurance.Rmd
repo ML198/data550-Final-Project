@@ -1,0 +1,103 @@
+---
+title: "Insurance Charges Analysis"
+author: "Mingrui Li"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(ggplot2)
+library(here)
+library(png)
+library(knitr)
+library(patchwork)
+
+```
+
+# Introduction
+
+The dataset used is entitled "Medical Cost Personal Datasets" and provides key demographic and health-related information, including age, gender, BMI, number of children, smoking status, region, and individual medical costs (charges) of health insurance beneficiaries in the U.S.
+
+This report analyzes factors affecting insurance charges using a dataset of insured individuals. Key variables include age, BMI, smoking status, and region.
+
+## Data Preparation
+
+**The dataset was processed to ensure consistency:**
+
+-   Categorical variables were converted to factors.
+
+-   Missing values were checked (none were found).
+
+```{r}
+# Load data from local file
+insurance <- readRDS(here("outputs", "cleaned_insurance.rds"))
+insurance[1:10,]
+```
+
+## Descriptive Statistics
+
+```{r}
+kable(summary(insurance))
+```
+The dataset consists of information about individuals' age, sex, BMI, number of children, smoking status, region, medical charges, and BMI classification. The data includes both numeric and categorical variables:
+
+-   Age: The ages of individuals range from 18 to 64 years, with a median age of 39. The mean age is 39.21.
+-   Sex: The gender of the individual (Male or Female). There is a fairly balanced distribution of sexes, with 662 females and 676 males in the dataset.
+-   BMI (Body Mass Index): A measure of body fat based on height and weight. BMI values range from 15.96 to 53.13, with a median value of 30.40. The mean BMI is slightly higher at 30.66, indicating that the population leans towards overweight or obese.
+-   Children: The number of children/dependents the individual has.
+-   Smoker: Whether the individual smokes (Yes or No). The dataset shows a higher percentage of non-smokers (1,064) compared to smokers (274). This indicates that the majority of the individuals are non-smokers.
+-   Region: The individuals are fairly evenly distributed across four regions: Northeast (324), Northwest (325), Southeast (364), and Southwest (325).
+-   Charges: The medical charges billed to the individual by the insurance company. Medical charges range from 1,122 to 63,770, with a mean of 13,270 and a median of 9,382.
+
+
+```{r}
+# Display formatted summary table for region
+summary_table <- readRDS(here("outputs", "region_summary.rds"))
+summary_table
+```
+
+
+This table shows significant regional variation in insurance costs. The Southeast region has both the highest average charges (14,735)and maximum charges (63,770) despite having the most records (364). This suggests regional factors may significantly impact healthcare costs.
+
+## Data Distributions
+
+```{r}
+# Display combined plots
+grid::grid.raster(png::readPNG(here("outputs", "numerical_dist.png")))
+grid::grid.newpage()
+grid::grid.raster(png::readPNG(here("outputs", "categorical_dist.png")))
+```
+
+The distributions reveal:
+
+-   Right-skewed charges distribution suggesting high-cost outliers
+
+-   Majority of clients are non-smoker
+
+-   Majority of clients have obese/overweight BMI
+
+
+## Relationships Analysis
+
+```{r}
+# Generate relationship visualizations
+p1 <- ggplot2::ggplot(insurance) +
+  ggplot2::geom_point(ggplot2::aes(bmi, charges, color = smoker), alpha = 0.5) +
+  labs(title = "BMI vs Charges")
+
+p2 <- ggplot2::ggplot(insurance) +
+  ggplot2::geom_point(ggplot2::aes(age, charges, color = smoker), alpha = 0.5) +
+  labs(title = "Age vs Charges")
+
+# Combine the plots and add a title
+patchwork::wrap_plots(p1, p2) + 
+  plot_annotation(title = "Charge Relationships with BMI and Age")
+
+```
+
+The BMI vs Charges figure demonstrates two key relationships: First, there's a clear distinction between smokers and non-smokers, with smokers consistently facing higher charges across all BMI levels. Second, while BMI shows some positive relationship with charges for smokers, this pattern is less pronounced for non-smokers. This highlights smoking as a primary cost driver, with BMI playing a secondary role in cost determination.
+
+The other figure shows a positive relationship between age and insurance charges. This indicates that as age increases, insurance charges tend to increase.In the meantime, there is significant variability in charges across different ages, especially for older age groups. There seem to be discrete clusters of charges, which might indicate underlying factors such as smoker status or other demographic variables.
+
