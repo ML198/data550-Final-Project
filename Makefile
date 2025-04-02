@@ -5,7 +5,9 @@ insurance.html: insurance.Rmd scripts/01_data_cleaning.R scripts/02_summary.R sc
 	Rscript scripts/04_visualization.R
 
 	Rscript -e "rmarkdown::render('insurance.Rmd')"
-
+	
+README.html:README.Rmd
+	rmarkdown::render("README.Rmd", output_format = "html_document", output_file = "README.html")
 
 
 .PHONY: clean
