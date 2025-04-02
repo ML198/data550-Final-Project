@@ -2,8 +2,7 @@
 title: "Insurance Charges Analysis Report"
 author: "Mingrui Li"
 
-output: 
-  html_document
+output: github_document
 ---
 
 
