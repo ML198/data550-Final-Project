@@ -15,7 +15,8 @@ Mingrui Li
 1.  Install requirements:
 
 ``` bash
-Rscript -e "install.packages(c('tidyverse', 'ggplot2', 'here', 'png', 'knitr', 'patchwork'))"
+Rscript -e "install.packages(c('tidyverse', 'ggplot2', 'here', 'png', 'knitr', 'patchwork'), repos = 'https://cloud.r-project.org')"
+
 ```
 
 2.  Run make command:
