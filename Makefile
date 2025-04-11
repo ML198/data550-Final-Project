@@ -13,3 +13,7 @@ README.html:README.Rmd
 .PHONY: clean
 clean:
 	rm -f outputs/* && rm -f insurance.html
+	
+.PHONY: install
+install:
+	Rscript -e "renv::restore(prompt = FALSE)"

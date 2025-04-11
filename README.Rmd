@@ -18,15 +18,12 @@ output: github_document
 
 ## How to Generate the Report
 
-1.  Install requirements:
+
+Run make command:
 
 ``` bash
-Rscript -e "install.packages(c('tidyverse', 'ggplot2', 'here', 'png', 'knitr', 'patchwork'))"
-```
-
-2.  Run make command:
-
-``` bash
+make clean 
+make install
 make insurance.html
 ```
 
