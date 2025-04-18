@@ -10,6 +10,9 @@ README.html:README.Rmd
 	rmarkdown::render("README.Rmd", output_format = "html_document", output_file = "README.html")
 
 
+install:
+	Rscript -e "renv::restore()"
+
 .PHONY: clean
 clean:
 	rm -f outputs/* && rm -f insurance.html
