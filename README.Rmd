@@ -9,15 +9,19 @@ output: github_document
 ## Repository Contents
 
 ```         
-├── data/            # Raw insurance data
-├── scripts/         # Analysis scripts
-├── outputs/         # Generated outputs
-├── report.Rmd       # Final report source
-└── Makefile         # Build automation
+├── data/ # Raw insurance data 
+├── scripts/ # R scripts for data cleaning, summary, and visualization 
+├── outputs/ # Output directory for rendered report and figures 
+├── insurance.Rmd # Source RMarkdown report 
+├── Makefile # Automation to build the report using Docker 
+├── renv/ # R package environment managed by renv 
+├── renv.lock # Snapshot of R package dependencies 
+└── Dockerfile # Docker configuration for reproducible execution
 ```
 
 ## How to Generate the Report
 
+To ensure reproducibility, this project runs inside a Docker container with all dependencies pre-installed via `renv`.
 
 Run make command:
 
