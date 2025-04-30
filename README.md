@@ -4,28 +4,31 @@ Mingrui Li
 
 ## Repository Contents
 
-```         
-├── data/            # Raw insurance data
-├── scripts/         # Analysis scripts
-├── outputs/         # Generated outputs
-├── report.Rmd       # Final report source
-└── Makefile         # Build automation
-```
+-   `insurance.Rmd` – The main RMarkdown file for the report.
+-   `scripts/` – Contains R scripts for data cleaning, summary statistics, and visualizations.
+-   `data/` – Input data files used in the analysis.
+-   `renv.lock`, `renv/` – Dependency lockfile and configuration for reproducible environments.
+-   `Makefile` – Provides convenient targets for building and running the report.
+-   `Dockerfile` – Builds a Docker image with all dependencies and report automation.
+-   `report` - Output HTML report (generated)
 
 ## How to Generate the Report
 
-1.  Install requirements:
+Ensure you have **Docker** installed. Then run:
 
 ``` bash
-Rscript -e "install.packages(c('tidyverse', 'ggplot2', 'here', 'png', 'knitr', 'patchwork'), repos = 'https://cloud.r-project.org')"
+make final_report
 ```
 
-2.  Run make command:
+This will:
 
-``` bash
-make clean 
-make insurance.html
-```
+-   Pull the prebuilt Docker image from DockerHub: mingruili02/insurance:latest
+
+-   Run the analysis and render the report
+
+-   Save the final HTML to the local report/ folder
+
+To remove output files: `make clean`
 
 ## Key Components
 
@@ -36,4 +39,10 @@ make insurance.html
 
 ## Report Description
 
-Explores medical insurance charges patterns through: - Regional cost comparisons - Demographic distributions - BMI/age vs charges relationships
+The report explores medical insurance charges and their relationship with:
+
+-   Region: Regional cost comparison
+
+-   Demographics: Age, sex, BMI distribution
+
+-   Predictors of Cost: BMI and age vs insurance charges

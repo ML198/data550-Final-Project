@@ -1,4 +1,4 @@
-IMAGE = insurance
+IMAGE = mingruili02/insurance:latest
 REPORT = insurance.html
 
 PROJECTFILES = insurance.Rmd \
@@ -15,22 +15,21 @@ insurance_image: $(PROJECTFILES) $(RENVFILES)
 	docker build -t $(IMAGE) .
 
 .PHONY: final_report
-final_report: insurance_image
-	docker run --rm -v "$$(pwd)/outputs":/home/rstudio/project/outputs $(IMAGE)
+final_report:
+	docker run --rm -v "$$(pwd)/report":/home/rstudio/project/report $(IMAGE)
 
 .PHONY: report
 report:
+	mkdir -p report
+	mkdir -p outputs
 	Rscript scripts/01_data_cleaning.R
 	Rscript scripts/02_summary.R
 	Rscript scripts/03_summary_figures.R
 	Rscript scripts/04_visualization.R
-	Rscript -e "rmarkdown::render('insurance.Rmd', output_file = 'outputs/report.html')"
+	Rscript -e "rmarkdown::render('insurance.Rmd', output_file = 'report/report.html')"
 
 .PHONY: local_report
 local_report: report
-
-README.html: README.Rmd
-	Rscript -e "rmarkdown::render('README.Rmd', output_format = 'html_document', output_file = 'README.html')"
 
 .PHONY: install
 install:
@@ -38,4 +37,4 @@ install:
 
 .PHONY: clean
 clean:
-	rm -f outputs/* $(REPORT)
+	rm -rf outputs report

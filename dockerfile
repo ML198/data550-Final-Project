@@ -4,6 +4,8 @@ RUN mkdir -p /home/rstudio/project
 WORKDIR /home/rstudio/project
 
 RUN mkdir -p renv
+RUN mkdir -p report
+RUN mkdir -p outputs
 COPY insurance.Rmd ./
 COPY Makefile ./
 COPY scripts ./scripts
