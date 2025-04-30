@@ -5,39 +5,40 @@ author: "Mingrui Li"
 output: github_document
 ---
 
-
 ## Repository Contents
 
-```         
-├── data/ # Raw insurance data 
-├── scripts/ # R scripts for data cleaning, summary, and visualization 
-├── outputs/ # Output directory for rendered report and figures 
-├── insurance.Rmd # Source RMarkdown report 
-├── Makefile # Automation to build the report using Docker 
-├── renv/ # R package environment managed by renv 
-├── renv.lock # Snapshot of R package dependencies 
-└── Dockerfile # Docker configuration for reproducible execution
-```
+-   `insurance.Rmd` – The main RMarkdown file for the report.
+-   `scripts/` – Contains R scripts for data cleaning, summary statistics, and visualizations.
+-   `data/` – Input data files used in the analysis.
+-   `renv.lock`, `renv/` – Dependency lockfile and configuration for reproducible environments.
+-   `Makefile` – Provides convenient targets for building and running the report.
+-   `dockerfile` – Builds a Docker image with all dependencies and report automation.
 
-## How to Generate the Report
+## Docker image
+
+The docker image of this project is available in the docker hub: "<https://hub.docker.com/repository/docker/mingruili02/insurance/general>"
+
+## Reproduce the Report
 
 To ensure reproducibility, this project runs inside a Docker container with all dependencies pre-installed via `renv`.
 
-Run make command:
+1.  Run make command: `mkdir -p outputs`
 
-``` bash
-make clean 
-make install
-make insurance.html
-```
+2.  Generate the report: `make final_report`
 
-## Key Components
+With this code, you can:
+
+-   Pull the image from DockerHub
+
+-   Mount a local outputs/ folder into the container
+
+-   Execute the report pipeline
+
+-   Leave the rendered report in outputs/report.html
+
+## Key Components in Output Folder
 
 -   **Table Creation**: Regional summary table code in `scripts/02_summary.R`
 -   **Figure Creation**:
     -   Distribution plots: `scripts/03_summary_figures.R`
     -   Relationship plots: `scripts/04_visualization.R`
-
-## Report Description
-
-Explores medical insurance charges patterns through: - Regional cost comparisons - Demographic distributions - BMI/age vs charges relationships
