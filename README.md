@@ -12,6 +12,14 @@ Mingrui Li
 -   `Dockerfile` – Builds a Docker image with all dependencies and report automation.
 -   `report` - Output HTML report (generated)
 
+## How to Build the Docker Image (Optional for local testing)
+
+To build the Docker image locally (only if needed):
+
+```bash
+make insurance_image
+```
+
 ## How to Generate the Report
 
 Ensure you have **Docker** installed. Then run:
